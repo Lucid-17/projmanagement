@@ -2,7 +2,7 @@ import { User } from '../models/user.models.js';
 import { ApiResponse } from '../utils/api-response.js';
 import { ApiError } from '../utils/api-errors.js';
 import { asyncHandler } from '../utils/async-handler.js';
-import { sendEmail } from '../utils/mail.js';
+import { sendEmail, emailVerificationMailgenContent } from '../utils/mail.js';
 
 const generateAccessAndRefreshTokens = async userId => {
   try {
@@ -32,7 +32,7 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new ApiError(409, 'User with email or username already exists', []);
   }
 
-  const user = awaitUser.create({
+  const user = await User.create({
     email,
     password,
     username,
